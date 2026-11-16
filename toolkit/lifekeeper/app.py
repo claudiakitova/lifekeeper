@@ -8,6 +8,7 @@ a web engine it falls back to a plain Tk window.
 
 .github/workflows/release.yml builds this into a double-click app for Windows and Mac. Nothing is sent anywhere unless you choose Google Gemini for answers.
 """
+import json
 import sys
 import threading
 import webbrowser
@@ -200,7 +201,48 @@ def tk_window():  # the plain window, for computers without a web engine
     root.mainloop()
 
 
-class Api:
+class FacesApi:
+    """The faces add-on, for the window. Without it, the window says how to add it."""
+
+    def _faces(self):
+        try:
+            from . import faces
+        except ImportError:
+            import faces
+        return faces
+
+    def faces_known(self, folder):
+        return lifekeeper.faces_file(folder).is_file()
+
+    def faces_scan(self, folder, name):
+        try:
+            faces = self._faces()
+            report = lambda text: self.window.evaluate_js(f"facesProgress({json.dumps(text)})")  # noqa: E731
+            photos, found = faces.scan(folder, [name] if (name or "").strip() else [], progress=report)
+            return {"photos": photos, "faces": found}
+        except Exception as error:
+            return {"error": str(error)}
+
+    def faces_people(self, folder):
+        import base64
+        try:
+            faces = self._faces()
+            groups = faces.people(folder)[:60]
+            pictures = faces.crops(folder, [face for group in groups for face in group["faces"][:6]])
+            return {"groups": [{"person": group["person"], "name": group["name"], "photos": group["photos"],
+                                "faces": ["data:image/jpeg;base64," + base64.b64encode(pictures[face]).decode()
+                                          for face in group["faces"][:6] if face in pictures]} for group in groups]}
+        except Exception as error:
+            return {"error": str(error)}
+
+    def faces_name(self, folder, person, name):
+        return self._faces().name(folder, person, name or "")
+
+    def faces_hide(self, folder, person):
+        return self._faces().hide(folder, person)
+
+
+class Api(FacesApi):
     """What the window's page can ask Python to do. Each call runs in its own thread, so the window stays responsive."""
 
     def __init__(self):

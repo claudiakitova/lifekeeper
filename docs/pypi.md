@@ -5,7 +5,7 @@ Reclaim your data and start your digital self: everything about you in one place
 Lifekeeper reads the exports you already have (phone photos, Telegram, WhatsApp, Instagram, Facebook, X, Google Takeout, Spotify, Netflix, Goodreads, LinkedIn, calendars, mood diaries and more) and writes one page of your life, year by year and month by month. Then you can ask questions about your life and get answers from your own records, with the records shown.
 
 ```
-pipx install "lifekeeper[photos,app]"
+pipx install "lifekeeper[photos,app,faces]"
 lifekeeper path/to/your/exports --out my-life.html
 lifekeeper-ask path/to/your/exports "When did I meet Leo?"
 lifekeeper-app

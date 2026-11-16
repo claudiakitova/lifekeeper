@@ -22,10 +22,12 @@ classifiers = [
 [project.optional-dependencies]
 photos = ["pillow>=10"]
 app = ["pywebview>=5"]
+faces = ["opencv-python-headless>=4.8", "numpy>=1.24", "pillow>=10"]
 
 [project.scripts]
 lifekeeper = "lifekeeper.lifekeeper:main"
 lifekeeper-ask = "lifekeeper.ask:main"
+lifekeeper-faces = "lifekeeper.faces:main"
 
 [project.gui-scripts]
 lifekeeper-app = "lifekeeper.app:main"

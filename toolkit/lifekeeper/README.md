@@ -85,6 +85,25 @@ Most people have photos, a chat app or two, and not much else. The page handles 
 - `--json life.json` also saves what it found, for your own scripts.
 - `--title "Anna's life"` changes the page title.
 
+## People in your photos
+
+An add-on finds the faces in your photos, groups the same person across photos, and lets you name each group once. Your page then shows who is in your photos each month ("in photos: Anna (12 photos)"), and Ask knows it too.
+
+It runs on your computer with OpenCV's YuNet and SFace face models. They are downloaded once (about 37 MB) from OpenCV's own repository and checked against known fingerprints. No photo leaves your computer.
+
+In the app: make your page, press **Find faces**, type a name under each group you know, and press **Update my page with these names**. Groups of strangers can be left out with **Not someone I know**.
+
+With the script (needs `pip install "lifekeeper[faces]"`):
+
+```
+lifekeeper-faces scan path/to/your/exports         # find faces; can be stopped and resumed
+lifekeeper-faces people path/to/your/exports       # a page with each group and its number
+lifekeeper-faces name path/to/your/exports 3 Anna  # name group 3
+lifekeeper-faces hide path/to/your/exports 7       # leave out group 7
+```
+
+What it finds and the names you give are kept in `lifekeeper-faces.sqlite3`, next to your exports folder (never inside it). Names belong to faces, so they stay when you scan new photos and the groups change. If one person ends up in two groups (as a child and as an adult, say), give both the same name and they become one person.
+
 ## Ask a question
 
 Ask a question about your life and get an answer from your own records, with the records it used. The app has a box for it, with the same three choices as below. With the script:

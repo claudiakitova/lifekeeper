@@ -224,6 +224,24 @@ class Formats(unittest.TestCase):
         for text in ("stories (2)", "Лиссабон!", "Красота", "Mar 2, 2021, Mar 30, 2021"):
             self.assertIn(text, page)
 
+    def test_people_in_photos_from_the_faces_file(self):
+        import sqlite3
+        from contextlib import closing
+        root = self.root / "exports"  # the faces file sits next to the exports folder, so give it its own folder
+        self.write("exports/photos/IMG_20210314_120000.jpg", b"not really a picture")
+        self.write("exports/photos/IMG_20210320_090000.jpg", b"not really a picture")
+        with closing(sqlite3.connect(lifekeeper.faces_file(root))) as connection:  # what the faces add-on writes
+            connection.executescript("""
+                CREATE TABLE faces(id INTEGER PRIMARY KEY, photo TEXT, person INTEGER);
+                CREATE TABLE names(face_id INTEGER PRIMARY KEY, name TEXT);
+                INSERT INTO faces VALUES (1, 'photos/IMG_20210314_120000.jpg', 0), (2, 'photos/IMG_20210320_090000.jpg', 0),
+                                         (3, 'photos/IMG_20210314_120000.jpg', 1), (4, 'photos/IMG_20210320_090000.jpg', 2);
+                INSERT INTO names VALUES (1, 'Anna'), (3, 'Leo');""")
+            connection.commit()
+        life = lifekeeper.build(root, [])
+        self.assertEqual(dict(life.photo_people["2021-03"]), {"Anna": 2, "Leo": 1})  # group 0 named through one face; group 2 unnamed
+        self.assertIn("<span class=k>in photos</span> Anna <span class=n>(2 photos)</span>", lifekeeper.render(life, "x"))
+
     def test_time_tracker(self):
         self.write("timelogger.csv", "Activity type,Duration,From,To,Comment,Tags\n"
                                      "Work,08:30,\"Mar 1, 2021, 9:00 AM\",\"Mar 1, 2021, 5:30 PM\",,\n"

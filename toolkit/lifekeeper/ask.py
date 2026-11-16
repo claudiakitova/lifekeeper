@@ -108,6 +108,8 @@ def records(life):
                                      f"{lifekeeper.when(card['last'])}, {card['messages']:,} messages")
     for month, people in life.talk.items():
         add(month, "messages", "Messages with " + top(people, 6))
+    for month, people in life.photo_people.items():
+        add(month, "photos", "In photos with " + top(people, 6))
     for month, count in life.photos.items():
         places = life.places.get(month)
         add(month, "photos", f"{count:,} photo{'' if count == 1 else 's'}" + (", taken in " + top(places, 5) if places else ""))

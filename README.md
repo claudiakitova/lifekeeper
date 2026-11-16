@@ -39,10 +39,11 @@ The app isn't signed, so the first time your computer asks before running it:
 Install it with [pipx](https://pipx.pypa.io) (Python 3.10 or newer):
 
 ```
-pipx install "lifekeeper[photos,app]"
+pipx install "lifekeeper[photos,app,faces]"
 lifekeeper path/to/your/exports --out my-life.html
 lifekeeper-ask path/to/your/exports "When did I meet Leo?"
 lifekeeper-app    # the window
+lifekeeper-faces scan path/to/your/exports    # find the people in your photos
 ```
 
 Or run it from a copy of this repository. It needs Python 3.10 or newer. Pillow is optional (`pip install pillow`); with it, Lifekeeper reads the dates and places stored inside photos.
@@ -58,6 +59,10 @@ Then on your own exports:
 ```
 python toolkit/lifekeeper/lifekeeper.py path/to/your/exports --out my-life.html
 ```
+
+## People in your photos
+
+Lifekeeper can find the faces in your photos, group the same person across photos, and let you name each group once. After that, your page shows who is in your photos each month, and you can ask about them. It runs on your computer with OpenCV's face models; no photo leaves it. In the app, press **Find faces** after making your page. [Details](toolkit/lifekeeper/#people-in-your-photos).
 
 ## Ask a question
 

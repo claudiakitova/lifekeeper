@@ -150,6 +150,9 @@ class Life:
         self.read = Counter()                   # what was read
         self.skipped = Counter()                # why something wasn't
         self.media = {}                         # picture path in an export → the day its JSON gives it (Instagram, Facebook)
+        self.photo_files = {}                   # photo, as its path inside the exports folder → its day ("" if only a year is known)
+        self.readers = {}                       # path inside the exports folder → a function that returns the file's bytes
+        self.photo_people = defaultdict(Counter)  # month → person → photos they're in (from the faces add-on)
 
     def message(self, day, person, mine):
         month = day[:7]
@@ -840,7 +843,9 @@ def read_all(root, me, opened):
             life.skipped[f"unreadable {suffix or 'files'}"] += 1
     whatsapp(life, whatsapp_files)
     meta_threads(life, threads)
+    life.readers = {photo_key(root, name): read for name, read in photos}
     for name, read in photos:
+        key = photo_key(root, name)
         try:
             sidecar = None
             for candidate in (name + ".json", name + ".supplemental-metadata.json", re.sub(r"\.[^.]+$", ".json", name)):
@@ -855,15 +860,52 @@ def read_all(root, me, opened):
             day, lat, lon = (known, None, None) if known else photo_info(name, read() if Image is not None and not dated else None, sidecar)
             if day:
                 life.photo(day, lat, lon)
+                life.photo_files[key] = day
                 life.read["photos"] += 1
             elif year_in_name(name[len(str(Path(root))):]):  # a scanned album: "1977 wedding.jpg", a folder called "1985"
                 life.photos_year[year_in_name(name[len(str(Path(root))):])] += 1
+                life.photo_files[key] = year_in_name(name[len(str(Path(root))):])
                 life.read["photos"] += 1
             else:
                 life.skipped["photos without a date"] += 1
         except (ValueError, OSError, zipfile.BadZipFile, KeyError, SyntaxError):
             life.skipped["unreadable photos"] += 1
+    people_in_photos(life, root)
     return life
+
+
+def photo_key(root, name):
+    """A photo's path inside the exports folder, with "/" on every system, so the faces file works on Windows and Mac."""
+    return name[len(str(Path(root))):].replace("\\", "/").lstrip("/")
+
+
+def faces_file(root):
+    """Where the faces add-on keeps what it found and the names you gave: next to the exports folder, never inside it."""
+    return Path(root).resolve().parent / "lifekeeper-faces.sqlite3"
+
+
+def people_in_photos(life, root):
+    """Who is in which photos, if you've run the faces add-on and named people. Plain sqlite3: no add-on needed to read it."""
+    path = faces_file(root)
+    if not path.is_file():
+        return
+    import sqlite3
+    from contextlib import closing
+    try:
+        with closing(sqlite3.connect(path)) as connection:
+            group_names = {}
+            for person, name, _ in connection.execute(
+                    "SELECT f.person, n.name, count(*) FROM faces f JOIN names n ON n.face_id = f.id "
+                    "GROUP BY f.person, n.name ORDER BY 3"):
+                group_names[person] = name  # the most-voted name wins (last, in ascending order)
+            seen = set()
+            for photo, person in connection.execute("SELECT photo, person FROM faces WHERE person IS NOT NULL"):
+                name, day = group_names.get(person), life.photo_files.get(photo)
+                if name and day and len(day) >= 7 and (photo, name) not in seen:
+                    seen.add((photo, name))
+                    life.photo_people[day[:7]][name] += 1
+    except sqlite3.Error:
+        life.skipped["unreadable faces file"] += 1
 
 
 # ---------- the page ----------
@@ -940,7 +982,7 @@ def render(life, title):
     months = sorted(set(life.photos) | set(life.places) | set(life.visits) | set(life.sent) | set(life.talk) | set(life.posts)
                     | set(life.notes) | set(life.work) | set(life.music) | set(life.watched) | set(life.books) | set(life.calendar)
                     | set(life.kept) | set(life.searches) | set(life.asked) | set(life.hours) | set(life.moods) | set(life.stories) | set(life.comments)
-                    | set(life.periods))
+                    | set(life.periods) | set(life.photo_people))
     months = [month for month in months if re.fullmatch(r"\d{4}-\d{2}", month)]
     year_notes = {key: items for key, items in life.notes.items() if re.fullmatch(r"\d{4}", key)}  # "1977": known only by the year
     years = sorted({month[:4] for month in months} | set(year_notes) | set(life.photos_year))
@@ -1010,6 +1052,8 @@ def render(life, title):
                 cells.append(f"<p><span class=k>visited</span> {html.escape(', '.join(name for name, _ in life.visits[month].most_common(6)))}</p>")
             if life.talk.get(month):
                 cells.append(f"<p><span class=k>with</span> {listed(life.talk[month], 3, 'message')}</p>")
+            if life.photo_people.get(month):
+                cells.append(f"<p><span class=k>in photos</span> {listed(life.photo_people[month], 4, 'photo')}</p>")
             if life.music.get(month):
                 cells.append(f"<p><span class=k>listened</span> {names(life.music[month], 3)}</p>")
             if life.watched.get(month):

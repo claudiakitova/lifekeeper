@@ -63,6 +63,14 @@ PAGE = r"""<!doctype html>
   ::-webkit-scrollbar { width: 10px; }
   ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 10px; border: 3px solid var(--bg); }
   ::-webkit-scrollbar-track { background: transparent; }
+  .groups { display: grid; gap: 14px; margin-top: 14px; }
+  .group { border-top: 1px solid var(--line); padding-top: 12px; }
+  .group:first-child { border-top: none; padding-top: 0; }
+  .faces { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .faces img { width: 56px; height: 56px; object-fit: cover; border-radius: 10px; }
+  .group .row input { flex: 1; }
+  .group .count { color: var(--faint); font-size: 12.5px; white-space: nowrap; }
+  .small { padding: 6px 12px; font-size: 13px; }
   .hidden { display: none; }
   .spin { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--line); border-top-color: var(--soft);
           border-radius: 50%; animation: s .8s linear infinite; vertical-align: -1px; margin-right: 6px; }
@@ -85,6 +93,16 @@ PAGE = r"""<!doctype html>
       <button class="primary" id="make" disabled>Make my page</button>
       <span class="status" id="status">Nothing leaves this computer</span>
     </div>
+  </section>
+
+  <section class="card">
+    <h2>People in your photos</h2>
+    <div class="actions" style="margin-top:0">
+      <button id="findFaces" disabled>Find faces</button>
+      <span class="status" id="facesStatus">Make your page first. Faces are found on this computer</span>
+    </div>
+    <div class="groups" id="groups"></div>
+    <div class="actions hidden" id="facesDone"><button class="primary" id="remake">Update my page with these names</button></div>
   </section>
 
   <section class="card">
@@ -137,6 +155,9 @@ $("make").onclick = async () => {
   $("status").innerHTML = 'Your page is ready. <button class="link" id="open">Open it</button>';
   $("open").onclick = () => pywebview.api.open_page();
   ready = true; refreshAsk(); $("question").focus();
+  $("findFaces").disabled = false;
+  if ($("facesStatus").textContent.startsWith("Make your page first")) $("facesStatus").textContent = "Faces are found on this computer. Nothing leaves it";
+  const known = await pywebview.api.faces_known(folder); if (known) showGroups();
 };
 document.querySelectorAll("#modes button").forEach(b => b.onclick = () => {
   document.querySelectorAll("#modes button").forEach(x => x.classList.toggle("on", x === b));
@@ -175,6 +196,36 @@ async function ask() {
   busy = false; refreshAsk(); show(r.error || r.text);
 }
 $("send").onclick = ask;
+
+window.facesProgress = text => { $("facesStatus").innerHTML = '<span class="spin"></span>' + text; };
+async function showGroups() {
+  const r = await pywebview.api.faces_people(folder);
+  if (r.error) { $("facesStatus").className = "status bad"; $("facesStatus").textContent = r.error; return; }
+  const box = $("groups"); box.innerHTML = "";
+  $("facesStatus").className = "status";
+  $("facesStatus").textContent = r.groups.length ? `${r.groups.length} ${r.groups.length === 1 ? "person" : "people"} found. Name the ones you know` : "No faces found in your photos";
+  r.groups.forEach(g => {
+    const div = document.createElement("div"); div.className = "group";
+    const faces = document.createElement("div"); faces.className = "faces";
+    g.faces.forEach(src => { const img = document.createElement("img"); img.src = src; faces.appendChild(img); });
+    const row = document.createElement("div"); row.className = "row";
+    const input = document.createElement("input"); input.value = g.name; input.placeholder = "Who is this?";
+    input.onchange = async () => { await pywebview.api.faces_name(folder, g.person, input.value); $("facesDone").classList.remove("hidden"); };
+    const count = document.createElement("span"); count.className = "count"; count.textContent = `${g.photos} photo${g.photos === 1 ? "" : "s"}`;
+    const hide = document.createElement("button"); hide.className = "small"; hide.textContent = "Not someone I know";
+    hide.onclick = async () => { await pywebview.api.faces_hide(folder, g.person); div.remove(); };
+    row.append(input, count, hide); div.append(faces, row); box.appendChild(div);
+  });
+}
+$("findFaces").onclick = async () => {
+  $("findFaces").disabled = true; $("facesStatus").className = "status";
+  facesProgress("Looking for faces. This can take a while for many photos");
+  const r = await pywebview.api.faces_scan(folder, $("name").value);
+  $("findFaces").disabled = false; $("findFaces").textContent = "Look again";
+  if (r.error) { $("facesStatus").className = "status bad"; $("facesStatus").textContent = r.error; return; }
+  showGroups();
+};
+$("remake").onclick = () => { $("facesDone").classList.add("hidden"); $("make").click(); };
 $("question").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(); } });
 refreshAsk();
 </script>
