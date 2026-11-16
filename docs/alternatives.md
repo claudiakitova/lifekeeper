@@ -50,5 +50,3 @@ These collect new stories through prompts. This approach starts from the records
 | Answers with sources | ✓ | no | partly | no |
 | Built with you by an AI agent | ✓ (skills) | no | no | no |
 | Free and open | ✓ | ✓ | no | no |
-
-A photo library like Immich is for browsing your photos; Lifekeeper puts them in your timeline. You can use both.
