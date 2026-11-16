@@ -1,0 +1,7 @@
+# one kind of line ending everywhere, so backup.sh runs on Mac and Linux
+* text=auto eol=lf
+# calendar files use CRLF by their standard: keep them exactly as written
+*.ics -text
+*.zip binary
+*.jpg binary
+*.png binary

@@ -1,0 +1,157 @@
+{
+ "semanticSegments": [
+  {
+   "startTime": "2025-04-05T10:00:00.000+09:00",
+   "endTime": "2025-04-05T18:00:00.000+09:00",
+   "visit": {
+    "topCandidate": {
+     "placeLocation": {
+      "latLng": "35.6371°, 139.6871°"
+     }
+    }
+   }
+  },
+  {
+   "startTime": "2025-04-06T10:00:00.000+09:00",
+   "endTime": "2025-04-06T18:00:00.000+09:00",
+   "visit": {
+    "topCandidate": {
+     "placeLocation": {
+      "latLng": "35.6334°, 139.7319°"
+     }
+    }
+   }
+  },
+  {
+   "startTime": "2025-04-07T10:00:00.000+09:00",
+   "endTime": "2025-04-07T18:00:00.000+09:00",
+   "visit": {
+    "topCandidate": {
+     "placeLocation": {
+      "latLng": "35.6857°, 139.7181°"
+     }
+    }
+   }
+  },
+  {
+   "startTime": "2025-04-08T10:00:00.000+09:00",
+   "endTime": "2025-04-08T18:00:00.000+09:00",
+   "visit": {
+    "topCandidate": {
+     "placeLocation": {
+      "latLng": "35.6657°, 139.6883°"
+     }
+    }
+   }
+  },
+  {
+   "startTime": "2025-04-09T10:00:00.000+09:00",
+   "endTime": "2025-04-09T18:00:00.000+09:00",
+   "visit": {
+    "topCandidate": {
+     "placeLocation": {
+      "latLng": "35.6539°, 139.7057°"
+     }
+    }
+   }
+  },
+  {
+   "startTime": "2025-04-10T10:00:00.000+09:00",
+   "endTime": "2025-04-10T18:00:00.000+09:00",
+   "visit": {
+    "topCandidate": {
+     "placeLocation": {
+      "latLng": "35.7164°, 139.6993°"
+     }
+    }
+   }
+  },
+  {
+   "startTime": "2025-04-11T10:00:00.000+09:00",
+   "endTime": "2025-04-11T18:00:00.000+09:00",
+   "visit": {
+    "topCandidate": {
+     "placeLocation": {
+      "latLng": "35.6378°, 139.6752°"
+     }
+    }
+   }
+  },
+  {
+   "startTime": "2025-04-12T10:00:00.000+09:00",
+   "endTime": "2025-04-12T18:00:00.000+09:00",
+   "visit": {
+    "topCandidate": {
+     "placeLocation": {
+      "latLng": "35.6493°, 139.6656°"
+     }
+    }
+   }
+  },
+  {
+   "startTime": "2025-04-13T10:00:00.000+09:00",
+   "endTime": "2025-04-13T18:00:00.000+09:00",
+   "visit": {
+    "topCandidate": {
+     "placeLocation": {
+      "latLng": "35.6905°, 139.6473°"
+     }
+    }
+   }
+  },
+  {
+   "startTime": "2025-04-14T10:00:00.000+09:00",
+   "endTime": "2025-04-14T18:00:00.000+09:00",
+   "visit": {
+    "topCandidate": {
+     "placeLocation": {
+      "latLng": "35.7095°, 139.6909°"
+     }
+    }
+   }
+  },
+  {
+   "startTime": "2025-04-15T10:00:00.000+09:00",
+   "endTime": "2025-04-15T18:00:00.000+09:00",
+   "visit": {
+    "topCandidate": {
+     "placeLocation": {
+      "latLng": "35.6644°, 139.6945°"
+     }
+    }
+   }
+  },
+  {
+   "startTime": "2025-04-16T10:00:00.000+09:00",
+   "endTime": "2025-04-16T18:00:00.000+09:00",
+   "visit": {
+    "topCandidate": {
+     "placeLocation": {
+      "latLng": "35.6379°, 139.7137°"
+     }
+    }
+   }
+  },
+  {
+   "startTime": "2025-04-17T10:00:00.000+09:00",
+   "endTime": "2025-04-17T18:00:00.000+09:00",
+   "visit": {
+    "topCandidate": {
+     "placeLocation": {
+      "latLng": "35.6395°, 139.7295°"
+     }
+    }
+   }
+  },
+  {
+   "startTime": "2025-04-12T09:00:00.000+09:00",
+   "visit": {
+    "topCandidate": {
+     "placeLocation": {
+      "latLng": "34.9858°, 135.7588°"
+     }
+    }
+   }
+  }
+ ]
+}

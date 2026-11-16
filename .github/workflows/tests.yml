@@ -1,0 +1,28 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ["3.10", "3.13"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: every format reads right
+        run: python -m unittest discover -s tests
+      - name: the demo page builds
+        run: python toolkit/lifekeeper/lifekeeper.py demo/exports --out life-check.html
+      - name: the demo matches the code that makes it
+        if: runner.os == 'Linux'
+        run: |
+          python demo/make_demo.py
+          git diff --exit-code demo/exports

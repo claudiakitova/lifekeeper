@@ -1,0 +1,21 @@
+# your own data never goes into this repository
+my-archive/
+exports-private/
+*.local.*
+life.json
+my-life.html
+backup-logs/
+
+# app builds (made by .github/workflows/release.yml)
+dist/
+build/
+*.spec
+
+# system and tool clutter
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+desktop.ini
+.venv/
+node_modules/
