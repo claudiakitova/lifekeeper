@@ -1,6 +1,6 @@
 # Lifekeeper
 
-The first step toward a digital twin of your life: everything about you in one place, on your own computer.
+The first step toward a digital twin of your life: everything about you in one place.
 
 Your photos, chats and posts are held by a dozen companies, and you only see them through their apps. Lifekeeper is how you take them back and put them together into one archive that you own and can read, search and correct.
 
