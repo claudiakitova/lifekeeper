@@ -39,14 +39,14 @@ The app isn't signed, so the first time your computer asks before running it:
 Install it with [pipx](https://pipx.pypa.io) (Python 3.10 or newer):
 
 ```
-pipx install "lifekeeper[photos,app,faces]"
+pipx install lifekeeper
 lifekeeper path/to/your/exports --out my-life.html
 lifekeeper-ask path/to/your/exports "When did I meet Leo?"
 lifekeeper-app    # the window
 lifekeeper-faces scan path/to/your/exports    # find the people in your photos
 ```
 
-Or run it from a copy of this repository. It needs Python 3.10 or newer. Pillow is optional (`pip install pillow`); with it, Lifekeeper reads the dates and places stored inside photos.
+Or run it from a copy of this repository. It needs Python 3.10 or newer and nothing else. With Pillow (`pip install pillow`), it also reads the dates and places stored inside photos.
 
 Try it on the made-up [demo](demo/) data:
 

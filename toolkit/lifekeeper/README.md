@@ -104,13 +104,13 @@ Most people have photos, a chat app or two, and not much else. The page handles 
 
 ## People in your photos
 
-An add-on finds the faces in your photos, groups the same person across photos, and lets you name each group once. Your page then shows who is in your photos each month ("in photos: Anna (12 photos)"), and Ask knows it too.
+Lifekeeper finds the faces in your photos, groups the same person across photos, and lets you name each group once. Your page then shows who is in your photos each month ("in photos: Anna (12 photos)"), and Ask knows it too.
 
 It runs on your computer with OpenCV's YuNet and SFace face models. They are downloaded once (about 37 MB) from OpenCV's own repository and checked against known fingerprints. No photo leaves your computer.
 
 In the app: make your page, press **Find faces**, type a name under each group you know, and press **Update my page with these names**. Groups of strangers can be left out with **Not someone I know**.
 
-With the script (needs `pip install "lifekeeper[faces]"`):
+With the script (from a copy of the repo, first `pip install opencv-python-headless numpy pillow`):
 
 ```
 lifekeeper-faces scan path/to/your/exports         # find faces; can be stopped and resumed

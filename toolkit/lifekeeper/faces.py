@@ -9,7 +9,7 @@
 Everything runs on this computer with OpenCV's YuNet (finding faces) and SFace (recognizing them). No photo leaves it.
 The two models (about 37 MB) are downloaded once from OpenCV's own repository and checked against known fingerprints.
 What it finds and the names you give are kept in lifekeeper-faces.sqlite3, next to your exports folder (never inside it).
-Needs the faces add-on: pip install "lifekeeper[faces]" (OpenCV, NumPy and Pillow).
+Needs OpenCV, NumPy and Pillow, which come with pipx install lifekeeper (from a copy of the repo: pip install opencv-python-headless numpy pillow).
 """
 import argparse
 import hashlib
@@ -87,7 +87,7 @@ def scan(root, me=(), progress=print, limit=None):
         import numpy
         from PIL import Image, ImageOps
     except ImportError:
-        raise RuntimeError('Finding faces needs the faces add-on: pip install "lifekeeper[faces]"') from None
+        raise RuntimeError("Finding faces needs OpenCV and NumPy: pip install opencv-python-headless numpy pillow") from None
     try:
         import pillow_heif  # iPhone photos (.heic), if the reader for them is installed
         pillow_heif.register_heif_opener()

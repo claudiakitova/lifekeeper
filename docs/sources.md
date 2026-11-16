@@ -6,7 +6,7 @@ Every source I know of, how to get it, and what it gives you, grouped by what it
 
 | Source | How to get it | What it gives | Read |
 |---|---|---|---|
-| Phone photos | Copy from the phone; iCloud.com; Google Takeout → Photos | Date and place of every photo: homes, trips, and who is in them (faces add-on) | ✓ (place from the photo's data with Pillow, or from Takeout's .json files) |
+| Phone photos | Copy from the phone; iCloud.com; Google Takeout → Photos | Date and place of every photo: homes, trips, and who is in them | ✓ (place from the photo's data with Pillow, or from Takeout's .json files) |
 | Google location history | Takeout → Location History; or Google Maps → Your Timeline → export (phone) | Places visited, by day | ✓ both formats |
 | Calendars | Google Calendar → Settings → Export; Apple Calendar → File → Export (.ics) | Appointments, trips, birthdays | ✓ |
 | Travel bookings | Airline and booking site accounts, or the confirmation emails | Flights, hotels, dates | not yet |
