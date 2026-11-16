@@ -21,6 +21,7 @@ classifiers = [
 
 [project.optional-dependencies]
 photos = ["pillow>=10"]
+app = ["pywebview>=5"]
 
 [project.scripts]
 lifekeeper = "lifekeeper.lifekeeper:main"
@@ -36,3 +37,6 @@ Source = "https://github.com/claudiakitova/lifekeeper"
 [tool.setuptools]
 package-dir = { "lifekeeper" = "toolkit/lifekeeper" }
 packages = ["lifekeeper"]
+
+[tool.setuptools.package-data]
+lifekeeper = ["icon.ico"]

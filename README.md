@@ -39,9 +39,10 @@ The app isn't signed, so the first time your computer asks before running it:
 Install it with [pipx](https://pipx.pypa.io) (Python 3.10 or newer):
 
 ```
-pipx install "lifekeeper[photos]"
+pipx install "lifekeeper[photos,app]"
 lifekeeper path/to/your/exports --out my-life.html
 lifekeeper-ask path/to/your/exports "When did I meet Leo?"
+lifekeeper-app    # the window
 ```
 
 Or run it from a copy of this repository. It needs Python 3.10 or newer. Pillow is optional (`pip install pillow`); with it, Lifekeeper reads the dates and places stored inside photos.

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Lifekeeper as a small window: choose your exports folder, press one button, and your page opens in the browser.
-Then ask questions about your life in the same window.
+"""Lifekeeper as a window: choose your exports folder, press one button, and your page opens in the browser.
+Then ask questions about your life in the same window. The window is a small web page (pywebview); without
+a web engine it falls back to a plain Tk window.
 
     python app.py                         # the window
     python app.py EXPORTS --out my.html   # no window: the same as lifekeeper.py
@@ -42,7 +43,7 @@ def make_page(folder, name):
     return out, life
 
 
-def window():
+def tk_window():  # the plain window, for computers without a web engine
     import tkinter as tk
     from tkinter import filedialog, messagebox, scrolledtext, ttk
 
@@ -197,6 +198,95 @@ def window():
     shown = scrolledtext.ScrolledText(root, height=9, wrap="word", state="disabled", font=(base[0], base[1] - 1))
     shown.pack(fill="both", expand=True, padx=24, pady=(10, 18))
     root.mainloop()
+
+
+class Api:
+    """What the window's page can ask Python to do. Each call runs in its own thread, so the window stays responsive."""
+
+    def __init__(self):
+        self.window, self.out, self.records = None, None, None
+
+    def choose_folder(self):
+        import webview
+        chosen = self.window.create_file_dialog(webview.FileDialog.FOLDER)
+        return chosen[0] if chosen else None
+
+    def make_page(self, folder, name):
+        try:
+            out, life = make_page(folder, name or "")
+        except Exception as error:  # said in plain words in the window, not as a crash
+            return {"error": str(error)}
+        try:
+            from . import ask
+        except ImportError:
+            import ask
+        self.out, self.records = out, ask.records(life)
+        webbrowser.open(out.as_uri())
+        return {"out": str(out)}
+
+    def open_page(self):
+        if self.out:
+            webbrowser.open(self.out.as_uri())
+
+    def ask(self, question, mode, value):
+        try:
+            from . import ask
+        except ImportError:
+            import ask
+        write = None
+        if mode == "ollama":
+            write = lambda system, prompt: ask.ollama(system, prompt, value)  # noqa: E731
+        elif mode == "gemini":
+            write = lambda system, prompt: ask.gemini(system, prompt, value)  # noqa: E731
+        try:
+            return {"text": ask.answer(self.records or [], question, write)}
+        except Exception as error:  # a wrong key, Ollama not running, no connection
+            return {"error": str(error)}
+
+
+def web_window():
+    """The window as a small web page in a native window: the same look as the page it makes."""
+    import webview
+    try:
+        from . import webui
+    except ImportError:
+        import webui
+    api = Api()
+    api.window = webview.create_window("Lifekeeper", html=webui.PAGE, js_api=api, width=700, height=880,
+                                       min_size=(560, 640))
+    webview.start(windows_icon)
+
+
+def windows_icon():
+    """On Windows the window shows the program's icon, which is Python's when run as a script or installed with pip.
+    Put the tree rings there instead. Anywhere else, or if anything goes wrong, nothing happens."""
+    if sys.platform != "win32":
+        return
+    try:
+        import ctypes
+        import time
+        icon = Path(__file__).with_name("icon.ico")
+        if not icon.is_file():
+            return
+        user32 = ctypes.windll.user32
+        for _ in range(50):  # the window appears a moment after start
+            hwnd = user32.FindWindowW(None, "Lifekeeper")
+            if hwnd:
+                break
+            time.sleep(0.1)
+        for size, which in ((16, 0), (32, 1)):  # small and big icons (WM_SETICON = 0x80)
+            handle = user32.LoadImageW(None, str(icon), 1, size, size, 0x10)  # IMAGE_ICON, LR_LOADFROMFILE
+            if handle:
+                user32.SendMessageW(hwnd, 0x80, which, handle)
+    except Exception:
+        pass
+
+
+def window():
+    try:
+        web_window()
+    except Exception:  # no web engine here (pywebview or WebView2 missing): the plain window still works
+        tk_window()
 
 
 def main():
