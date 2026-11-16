@@ -1,0 +1,25 @@
+name: publish-to-pypi
+
+# Builds the package and publishes it to PyPI with Trusted Publishing (no password or token stored anywhere).
+# Run it by hand from the Actions tab after a release. PyPI must list this repository and workflow as a trusted publisher.
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build
+        run: |
+          python -m pip install build==1.2.2.post1
+          python -m build
+      - name: Every format reads right
+        run: python -m unittest discover -s tests
+      - uses: pypa/gh-action-pypi-publish@release/v1

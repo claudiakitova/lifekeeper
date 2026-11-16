@@ -12,7 +12,10 @@ import threading
 import webbrowser
 from pathlib import Path
 
-import lifekeeper
+try:  # installed with pip: part of the lifekeeper package
+    from . import lifekeeper
+except ImportError:  # run as a script from this folder
+    import lifekeeper
 
 
 def page_path(folder):
@@ -43,7 +46,10 @@ def window():
     import tkinter as tk
     from tkinter import filedialog, messagebox, scrolledtext, ttk
 
-    import ask
+    try:
+        from . import ask
+    except ImportError:
+        import ask
 
     root = tk.Tk()
     root.title("Lifekeeper")

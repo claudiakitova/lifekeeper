@@ -22,8 +22,11 @@ import urllib.request
 from collections import Counter
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-import lifekeeper  # noqa: E402
+try:  # installed with pip: part of the lifekeeper package
+    from . import lifekeeper
+except ImportError:  # run as a script from this folder
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import lifekeeper  # noqa: E402
 
 GEMINI_MODEL = "gemini-3.6-flash"
 NO_ANSWER = "The records don't say."

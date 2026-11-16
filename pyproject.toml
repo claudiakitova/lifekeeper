@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lifekeeper"
+version = "0.1.0"
+description = "Reclaim your data: one page of your life from your photos, chats and posts, and answers from your own records."
+readme = "docs/pypi.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Claudia Kitova" }]
+keywords = ["life archive", "personal data", "data export", "timeline", "google takeout", "local-first", "digital twin"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Topic :: Utilities",
+]
+
+[project.optional-dependencies]
+photos = ["pillow>=10"]
+
+[project.scripts]
+lifekeeper = "lifekeeper.lifekeeper:main"
+lifekeeper-ask = "lifekeeper.ask:main"
+
+[project.gui-scripts]
+lifekeeper-app = "lifekeeper.app:main"
+
+[project.urls]
+Homepage = "https://github.com/claudiakitova/lifekeeper"
+Source = "https://github.com/claudiakitova/lifekeeper"
+
+[tool.setuptools]
+package-dir = { "lifekeeper" = "toolkit/lifekeeper" }
+packages = ["lifekeeper"]

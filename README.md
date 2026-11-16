@@ -4,7 +4,7 @@ The first step toward a digital twin of your life: everything about you in one p
 
 Your photos, chats and posts are held by a dozen companies, and you only see them through their apps. Lifekeeper is how you take them back and put them together into one archive that you own and can read, search and correct.
 
-![One year of the demo page, for a made-up person](docs/images/demo-page.png)
+![Making the page and asking a question, with made-up data](docs/images/demo.gif)
 
 ## Make your page
 
@@ -19,15 +19,21 @@ It reads photos, Telegram, WhatsApp, Messenger and Instagram chats, Android text
 3. The page opens in your browser.
 4. To ask a question about your life, type it in the same window.
 
-![The app after making a page and answering a question, with made-up data](docs/images/app.png)
-
 The app isn't signed, so the first time your computer asks before running it:
 - Windows: "Windows protected your PC" → **More info** → **Run anyway**.
 - Mac: right-click the app → **Open** → **Open**.
 
 ### The script
 
-Needs Python 3.10 or newer. Pillow is optional (`pip install pillow`); with it, Lifekeeper reads the dates and places stored inside photos.
+Install it with [pipx](https://pipx.pypa.io) (Python 3.10 or newer):
+
+```
+pipx install "lifekeeper[photos]"
+lifekeeper path/to/your/exports --out my-life.html
+lifekeeper-ask path/to/your/exports "When did I meet Leo?"
+```
+
+Or run it from a copy of this repository. It needs Python 3.10 or newer. Pillow is optional (`pip install pillow`); with it, Lifekeeper reads the dates and places stored inside photos.
 
 Try it on the made-up [demo](demo/) data:
 
