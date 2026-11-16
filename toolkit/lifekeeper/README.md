@@ -40,6 +40,7 @@ Put your exports in one folder, as they came. Zips can stay zipped. For step-by-
 | Instagram stories, and your comments on Instagram and Facebook | What you shared and said, with dates |
 | Flo's data download (JSON) | The days your periods started |
 | `my_events.csv` | The main events, in your words |
+| `my_homes.csv` | Where you lived, if Lifekeeper gets it wrong |
 
 Lifekeeper looks for a photo's date in these places:
 - the photo itself;
@@ -70,6 +71,22 @@ date,title,note
 ```
 
 The date can be a day, a month or just a year. These lines are shown first in each month, and a line with only a year is shown with that year.
+
+## Places and trips
+
+Photos with a location, and Google location history, are named by the nearest town. The list of towns is from [GeoNames](https://www.geonames.org/) (CC BY 4.0): every place with more than 15,000 people. A spot far from any of them is shown as "near" a town, or as coordinates.
+
+Lifekeeper then works out where home was each month: the town you were in across the most months of that year. Days somewhere else become trips, and the page lists them by month and in a Trips section at the end ("Lisbon, Sintra (Portugal), Aug 13–21, 2021, 9 days, 22 photos"). If a line in `my_events.csv` falls inside a trip, it becomes the trip's note.
+
+If home is wrong (you moved a lot, or took few photos at home), say where you lived in `my_homes.csv`:
+
+```
+place,from,until
+Berlin,2015,2019-08
+Lisbon,2019-09,
+```
+
+Use the town name as the page shows it. An empty "until" means you still live there.
 
 ## If you have little data
 

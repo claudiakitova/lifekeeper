@@ -41,4 +41,4 @@ package-dir = { "lifekeeper" = "toolkit/lifekeeper" }
 packages = ["lifekeeper"]
 
 [tool.setuptools.package-data]
-lifekeeper = ["icon.ico"]
+lifekeeper = ["icon.ico", "cities.tsv.gz"]

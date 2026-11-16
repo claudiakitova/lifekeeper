@@ -34,6 +34,12 @@ from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
+try:  # installed with pip: part of the lifekeeper package
+    from . import places
+except ImportError:  # run as a script from this folder
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import places  # noqa: E402
+
 try:
     from PIL import Image
     Image.MAX_IMAGE_PIXELS = None  # only a photo's header is read, never its pixels: a huge scan is no danger
@@ -96,6 +102,8 @@ def place_name(lat, lon):
     """"Berlin" within 40 km, "near Berlin" within 150 km, otherwise the coordinates."""
     if lat is None or lon is None or (abs(lat) < 0.01 and abs(lon) < 0.01):  # 0,0 means "no location"
         return None
+    if places.town_at(lat, lon) is not None:
+        return places.place_label(lat, lon)
     name, km = min(((city, distance_km(lat, lon, clat, clon)) for city, clat, clon in CITIES), key=lambda item: item[1])
     return name if km <= 40 else f"near {name}" if km <= 150 else f"{lat:.1f}°, {lon:.1f}°"
 
@@ -153,6 +161,9 @@ class Life:
         self.photo_files = {}                   # photo, as its path inside the exports folder → its day ("" if only a year is known)
         self.readers = {}                       # path inside the exports folder → a function that returns the file's bytes
         self.photo_people = defaultdict(Counter)  # month → person → photos they're in (from the faces add-on)
+        self.located = defaultdict(dict)        # town → {day: photos taken there that day} (a phone-only day counts 0)
+        self.told_homes = []                    # (town, from, until) from my_homes.csv
+        self.trips = []                         # trips away from home (places.trips)
 
     def message(self, day, person, mine):
         month = day[:7]
@@ -170,6 +181,12 @@ class Life:
         place = place_name(lat, lon)
         if place:
             self.places[day[:7]][place] += 1
+            self.locate(day, place, 1)
+
+    def locate(self, day, place, photos=0):
+        """A day spent in a town: for visits and trips. Only real towns, not "near ..." or coordinates."""
+        if place and len(day) == 10 and not place.startswith("near ") and "°" not in place:
+            self.located[place][day] = self.located[place].get(day, 0) + photos
 
 
 # ---------- readers ----------
@@ -277,9 +294,11 @@ def location_history(life, data):
         place = visit.get("location", {})
         duration = visit.get("duration", {})
         day = day_of(duration.get("startTimestamp") or duration.get("startTimestampMs"))
-        name = place.get("name") or place_name((place.get("latitudeE7") or 0) / 1e7, (place.get("longitudeE7") or 0) / 1e7)
+        town = place_name((place.get("latitudeE7") or 0) / 1e7, (place.get("longitudeE7") or 0) / 1e7)
+        name = place.get("name") or town
         if day and name:
             life.visits[day[:7]][name] += 1
+            life.locate(day, town)
             found += 1
     for segment in data.get("semanticSegments", []):  # the newer Timeline export from the phone
         visit = segment.get("visit")
@@ -290,6 +309,7 @@ def location_history(life, data):
             name = place_name(float(numbers[0]), float(numbers[1]))
             if name:
                 life.visits[day[:7]][name] += 1
+                life.locate(day, name)
                 found += 1
     if found:
         life.read["location history files"] += 1
@@ -774,6 +794,8 @@ def read_all(root, me, opened):
                 whatsapp_files.append((name, read().decode("utf-8", "replace")))
             elif base == "my_events.csv":
                 my_events(life, read().decode("utf-8-sig", "replace"))
+            elif base == "my_homes.csv":
+                life.told_homes += places.read_homes(read().decode("utf-8-sig", "replace"))
             elif base in ("viewingactivity.csv", "netflixviewinghistory.csv"):
                 netflix(life, read().decode("utf-8-sig", "replace"))
             elif base == "goodreads_library_export.csv":
@@ -871,6 +893,9 @@ def read_all(root, me, opened):
         except (ValueError, OSError, zipfile.BadZipFile, KeyError, SyntaxError):
             life.skipped["unreadable photos"] += 1
     people_in_photos(life, root)
+    notes = sorted((day, title) for items in life.notes.values() for day, title, _ in items)
+    life.trips = places.trips(life.located, life.told_homes, notes) if life.located else []
+    life.read["trips"] = len(life.trips)
     return life
 
 
@@ -940,6 +965,27 @@ def listed(counter, limit, unit):
 def names(counter, limit):
     top = [html.escape(name) for name, _ in counter.most_common(limit)]
     return top[0] if len(top) == 1 else ", ".join(top[:-1]) + " and " + top[-1] if top else ""
+
+
+def span(start, end):
+    """"Aug 13–21, 2021", "Aug 28 – Sep 3, 2021", "Dec 30, 2021 – Jan 2, 2022", or one day."""
+    a, b = datetime.fromisoformat(start), datetime.fromisoformat(end)
+    if a == b:
+        return when(start)
+    if a.year != b.year:
+        return f"{when(start)} – {when(end)}"
+    if a.month != b.month:
+        return f"{SHORT[a.month - 1]} {a.day} – {SHORT[b.month - 1]} {b.day}, {a.year}"
+    return f"{SHORT[a.month - 1]} {a.day}–{b.day}, {a.year}"
+
+
+def trip_text(trip):
+    where = html.escape(", ".join(trip["places"][:5]) + (" and more" if len(trip["places"]) > 5 else ""))
+    country = html.escape(", ".join(trip["countries"][:3]))
+    note = f" · {html.escape(trip['note'])}" if trip["note"] else ""
+    photos = f", {trip['photos']:,} photo{'' if trip['photos'] == 1 else 's'}" if trip["photos"] else ""
+    return (f"{where}{f' <span class=n>({country})</span>' if country else ''}{note} "
+            f"<span class=n>{span(trip['start'], trip['end'])}, {trip['days']} day{'' if trip['days'] == 1 else 's'}{photos}</span>")
 
 
 def mood_line(days):
@@ -1042,6 +1088,8 @@ def render(life, title):
             cells = []
             for day, note_title, note in sorted(life.notes.get(month, [])):
                 cells.append(f"<p class=note><b>{html.escape(note_title)}</b>{(': ' + html.escape(note)) if note else ''} <span class=n>{when(day)}</span></p>")
+            for trip in (trip for trip in life.trips if trip["start"][:7] == month):
+                cells.append(f"<p class=trip><span class=k>trip</span> {trip_text(trip)}</p>")
             for day, text in sorted(life.work.get(month, [])):
                 cells.append(f"<p><span class=k>work</span> {html.escape(text)} <span class=n>(LinkedIn)</span></p>")
             if life.places.get(month):
@@ -1118,6 +1166,13 @@ def render(life, title):
                         f"<td class=r>{card['messages']:,}</td><td>{by_year.most_common(1)[0][0] if by_year else ''}</td></tr>")
         body.append("<section id='people'><h2>People</h2><table class=people><tr><th>who</th><th>first</th><th>last</th>"
                     "<th class=r>messages</th><th>busiest year</th></tr>" + "".join(rows) + "</table></section>")
+    if life.trips:
+        rows = "".join(f"<tr><td>{span(trip['start'], trip['end'])}</td><td>{html.escape(', '.join(trip['places'][:6]))}"
+                       f"{(' <span class=n>· ' + html.escape(trip['note']) + '</span>') if trip['note'] else ''}</td>"
+                       f"<td class=r>{trip['days']}</td><td class=r>{trip['photos']:,}</td></tr>"
+                       for trip in reversed(life.trips))
+        body.append("<section id='trips'><h2>Trips</h2><table class=people><tr><th>when</th><th>where</th><th class=r>days</th>"
+                    "<th class=r>photos</th></tr>" + rows + "</table></section>")
     undated = life.skipped.get("photos without a date", 0)
     if undated:
         body.append(f"<section id='undated'><h2>Photos without a date</h2><p>{undated:,} photo{'s have' if undated != 1 else ' has'} no date "

@@ -44,7 +44,7 @@ SYSTEM = (
 )
 
 # The person's own account comes first when records are otherwise equal.
-KINDS = ["my note", "diary", "Facebook post", "Instagram post", "X post", "Instagram story", "comment", "calendar", "LinkedIn", "book read", "Keep note", "AI chat",
+KINDS = ["my note", "diary", "Facebook post", "Instagram post", "X post", "Instagram story", "comment", "trip", "calendar", "LinkedIn", "book read", "Keep note", "AI chat",
          "person", "messages", "photos", "location history", "period", "mood", "time", "searches", "music", "watched"]
 
 
@@ -108,6 +108,11 @@ def records(life):
                                      f"{lifekeeper.when(card['last'])}, {card['messages']:,} messages")
     for month, people in life.talk.items():
         add(month, "messages", "Messages with " + top(people, 6))
+    for trip in life.trips:
+        add(trip["start"], "trip", f"Trip to {', '.join(trip['places'][:6])}"
+            + (f" ({', '.join(trip['countries'][:3])})" if trip["countries"] else "")
+            + f", {lifekeeper.span(trip['start'], trip['end'])}, {trip['days']} days, {trip['photos']:,} photos"
+            + (f": {trip['note']}" if trip["note"] else ""))
     for month, people in life.photo_people.items():
         add(month, "photos", "In photos with " + top(people, 6))
     for month, count in life.photos.items():

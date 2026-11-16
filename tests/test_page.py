@@ -11,6 +11,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "toolkit" / "lifekeeper"))
 import lifekeeper  # noqa: E402
+import places  # noqa: E402
 
 
 def meta(text):
@@ -316,9 +317,25 @@ class Formats(unittest.TestCase):
 class Places(unittest.TestCase):
     def test_names(self):
         self.assertEqual(lifekeeper.place_name(52.52, 13.40), "Berlin")
-        self.assertEqual(lifekeeper.place_name(52.0, 13.9), "near Berlin")
+        self.assertEqual(lifekeeper.place_name(52.42, 13.05), "Potsdam")  # a real town of its own, 30 km from Berlin
+        self.assertEqual(lifekeeper.place_name(52.47, 13.31), "Berlin")   # a suburb takes the big city's name
+        self.assertEqual(lifekeeper.place_name(38.70, -9.15), "Lisbon")
         self.assertIsNone(lifekeeper.place_name(0, 0))  # 0,0 means "no location"
-        self.assertTrue(lifekeeper.place_name(-60.0, -40.0).endswith("°"))
+        self.assertTrue(lifekeeper.place_name(-60.0, -40.0).endswith("°"))  # the ocean: no town anywhere near
+
+    def test_visits_and_trips(self):
+        located = {"Berlin": {f"2021-{m:02d}-{d:02d}": 1 for m in range(1, 13) for d in (3, 17)},
+                   "Lisbon": {"2021-08-13": 5, "2021-08-15": 3}, "Sintra": {"2021-08-17": 4}, "Tokyo": {f"2021-04-{d:02d}": 2 for d in range(1, 15)}}
+        trips = places.trips(located, notes=[("2021-04-05", "Two weeks in Japan")])
+        self.assertEqual([(t["places"], t["start"], t["end"], t["photos"]) for t in trips],
+                         [(["Tokyo"], "2021-04-01", "2021-04-14", 28), (["Lisbon", "Sintra"], "2021-08-13", "2021-08-17", 12)])
+        self.assertEqual(trips[0]["note"], "Two weeks in Japan")  # a long trip doesn't make Tokyo home
+        self.assertEqual(trips[1]["countries"], ["Portugal"])
+        told = places.trips(located, told_homes=[("Lisbon", "2021-08", "2021-08")])
+        self.assertNotIn("Lisbon", [p for t in told for p in t["places"]])  # what you wrote wins
+        self.assertIn("Berlin", [p for t in told for p in t["places"]])
+        self.assertEqual(lifekeeper.span("2021-08-28", "2021-09-03"), "Aug 28 – Sep 3, 2021")
+        self.assertEqual(lifekeeper.span("2021-08-13", "2021-08-21"), "Aug 13–21, 2021")
 
 
 if __name__ == "__main__":

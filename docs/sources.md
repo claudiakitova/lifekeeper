@@ -89,6 +89,7 @@ Every source I know of, how to get it, and what it gives you, grouped by what it
 | Source | How to get it | What it gives | Read |
 |---|---|---|---|
 | Your own notes | Write `my_events.csv` | The main events, in your words. Lifekeeper shows them first in each month | ✓ |
+| Where you lived | Write `my_homes.csv` | Home for each period, so trips are found correctly | ✓ |
 | Paper | Scan with your phone | Diplomas, letters, medical and legal papers | not yet (needs OCR) |
 | Old phones, drives, cameras | Copy them whole | Years that were never exported | ✓ photos |
 | Voice memos, recordings, home videos | Copy the files; digitize old tapes | Voices, meetings, conversations | not yet (needs transcription) |
@@ -97,3 +98,7 @@ Every source I know of, how to get it, and what it gives you, grouped by what it
 ## What to add to Lifekeeper next
 
 My order, by how many people have the source and how much it adds: iPhone messages, Apple Health, Day One and Notion, bank statements (CSV), contacts' birthdays, and Strava routes. To add one, see [CONTRIBUTING](../CONTRIBUTING.md).
+
+## Credits
+
+Town names and locations are from [GeoNames](https://www.geonames.org/), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Lifekeeper keeps a shortened copy: places with more than 15,000 people, with name, location, country and population.

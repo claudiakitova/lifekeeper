@@ -64,6 +64,10 @@ python toolkit/lifekeeper/lifekeeper.py path/to/your/exports --out my-life.html
 
 Lifekeeper can find the faces in your photos, group the same person across photos, and let you name each group once. After that, your page shows who is in your photos each month, and you can ask about them. It runs on your computer with OpenCV's face models; no photo leaves it. In the app, press **Find faces** after making your page. [Details](toolkit/lifekeeper/#people-in-your-photos).
 
+## Places and trips
+
+Photos with a location, and Google location history, are named by town, using [GeoNames](https://www.geonames.org/). Lifekeeper works out where home was each month and lists the trips away from it, with the places, days and photos. If it gets home wrong, write where you lived in `my_homes.csv`. [Details](toolkit/lifekeeper/#places-and-trips).
+
 ## Ask a question
 
 Ask a question about your life and get an answer from your own records, with the records it used. In the app, type it under "Ask a question". With the script:
