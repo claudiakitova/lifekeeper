@@ -1,6 +1,17 @@
-# Lifekeeper
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/lockup-dark.svg">
+    <img src="docs/images/lockup.svg" alt="Lifekeeper" width="380">
+  </picture>
+</p>
 
-The first step toward a digital twin of your life: everything about you in one place.
+<h3 align="center">Reclaim your data and start your digital self: everything about you in one place, on your own computer</h3>
+
+<p align="center">
+  <a href="https://github.com/claudiakitova/lifekeeper/actions/workflows/tests.yml"><img src="https://github.com/claudiakitova/lifekeeper/actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
+  <a href="https://github.com/claudiakitova/lifekeeper/releases/latest"><img src="https://img.shields.io/github/v/release/claudiakitova/lifekeeper?label=release" alt="Latest release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/claudiakitova/lifekeeper" alt="MIT license"></a>
+</p>
 
 Your photos, chats and posts are held by a dozen companies, and you only see them through their apps. Lifekeeper is how you take them back and put them together into one archive that you own and can read, search and correct.
 

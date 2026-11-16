@@ -53,6 +53,14 @@ def window():
 
     root = tk.Tk()
     root.title("Lifekeeper")
+    try:  # the tree rings in the title bar and taskbar
+        try:
+            from . import icon_data
+        except ImportError:
+            import icon_data
+        root.iconphoto(True, tk.PhotoImage(data="".join(icon_data.PNG)))
+    except Exception:  # an icon is never worth failing over
+        pass
     root.geometry("640x760")
     root.minsize(560, 640)
     base = ("Segoe UI", 12) if sys.platform == "win32" else ("Helvetica", 14)

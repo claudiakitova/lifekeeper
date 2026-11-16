@@ -28,12 +28,12 @@ jobs:
       - name: build the Windows app
         if: runner.os == 'Windows'
         run: |
-          pyinstaller --noconfirm --onefile --windowed --name "Lifekeeper" --paths toolkit/lifekeeper toolkit/lifekeeper/app.py
+          pyinstaller --noconfirm --onefile --windowed --name "Lifekeeper" --icon toolkit/lifekeeper/icon.ico --paths toolkit/lifekeeper toolkit/lifekeeper/app.py
           Compress-Archive -Path "dist/Lifekeeper.exe" -DestinationPath ${{ matrix.artifact }}
       - name: build the Mac app
         if: runner.os == 'macOS'
         run: |
-          pyinstaller --noconfirm --windowed --name "Lifekeeper" --paths toolkit/lifekeeper toolkit/lifekeeper/app.py
+          pyinstaller --noconfirm --windowed --name "Lifekeeper" --icon toolkit/lifekeeper/icon.png --paths toolkit/lifekeeper toolkit/lifekeeper/app.py
           ditto -c -k --keepParent "dist/Lifekeeper.app" ${{ matrix.artifact }}
       - uses: actions/upload-artifact@v4
         with:
