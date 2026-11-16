@@ -51,4 +51,4 @@ These collect new stories through prompts. This approach starts from the records
 | Built with you by an AI agent | ✓ (skills) | no | no | no |
 | Free and open | ✓ | ✓ | no | no |
 
-Lifekeeper works with photos too: it dates them, tells where you were from where they were taken, finds the people in them, and puts all of that month by month alongside your chats, posts and notes. A photo library like Immich adds browsing and editing, and the two work well side by side.
+A photo library like Immich is for browsing your photos; Lifekeeper puts them in your timeline. You can use both.
