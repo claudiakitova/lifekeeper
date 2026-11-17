@@ -28,7 +28,8 @@ It reads photos, Telegram, WhatsApp, Messenger and Instagram chats, Android text
 1. Download it from [Releases](https://github.com/claudiakitova/lifekeeper/releases) and unzip.
 2. Double-click it, choose the folder with your exports, and press "Make my page".
 3. The page opens in your browser.
-4. To ask a question about your life, type it in the same window.
+4. To find the people in your photos, press **Find faces**.
+5. To ask a question about your life, type it in the same window.
 
 The app isn't signed, so the first time your computer asks before running it:
 - Windows: "Windows protected your PC" → **More info** → **Run anyway**.
@@ -70,7 +71,7 @@ Photos with a location, and Google location history, are named by town, using [G
 
 ## Ask a question
 
-Ask a question about your life and get an answer from your own records, with the records it used. In the app, type it under "Ask a question". With the script:
+Ask a question about your life and get an answer from your own records, with the records it used. In the app, type it under "Ask about your life". With the script:
 
 ```
 python toolkit/lifekeeper/ask.py path/to/your/exports "When did I meet Leo?"
@@ -106,7 +107,7 @@ With no AI, it shows the records that match, and nothing leaves your computer. F
 
 ## Status
 
-Lifekeeper is the public part of the archive I use for my own life. Mine also reads scans and voice recordings, describes what's in each photo, and has more views of the same data. I'm moving those parts into Lifekeeper one at a time.
+Lifekeeper is the public part of the archive I use for my own life.
 
 ## About
 

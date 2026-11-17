@@ -5,7 +5,7 @@ A life archive holds health records, money, relationships and other people's mes
 ## Keep it local
 
 - Keep the archive on your own computer or on a drive you control.
-- By default, nothing goes to an outside service. Search, OCR, transcription and small AI models all run locally. Lifekeeper doesn't use the network at all.
+- By default, nothing goes to an outside service. Search, OCR, transcription and small AI models all run locally. Lifekeeper makes your page without the network. Finding faces downloads its models once, and Ask goes online only if you choose Gemini.
 - Sometimes an outside service would do a job better, for example a large AI model reading handwriting. Decide that on purpose, for that one job, and write the decision down. Prefer services that don't train on your data and that let you delete it.
 
 ## What stays out of titles, summaries and the timeline

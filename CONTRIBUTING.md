@@ -5,8 +5,8 @@ The most useful contributions are new sources for Lifekeeper, fixes for exports 
 ## Rules
 
 - Don't share real personal data, yours or anyone else's. That means no exports, screenshots or examples from real accounts in issues or pull requests. Make up small examples instead, the way [`demo/make_demo.py`](demo/make_demo.py) and [`tests/`](tests/) do.
-- Lifekeeper doesn't use the network. Don't add anything that does. Ask uses it only when the person chooses an online model.
-- The core uses only the standard library and runs on plain Python 3.10+. Heavier parts (Pillow, the window, faces) are optional add-ons, and Lifekeeper must keep working without them.
+- Lifekeeper doesn't use the network. Don't add anything that does. The only exceptions: finding faces downloads its models once, and Ask goes online only when the person chooses an online model.
+- The core uses only the standard library and runs on plain Python 3.10+. Pillow, the window and faces come with `pipx install lifekeeper`, but Lifekeeper must keep working without them.
 - Pages use plain words, readable dates and no technical terms. See [Readable on a hard day](docs/readable-on-a-hard-day.md).
 - Retweets, forwards and shared posts are other people's words. Leave them out or label them.
 

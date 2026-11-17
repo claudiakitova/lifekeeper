@@ -2,7 +2,7 @@
 
 Reclaim your data and start your digital self: everything about you in one place, on your own computer
 
-Lifekeeper reads the exports you already have (phone photos, Telegram, WhatsApp, Instagram, Facebook, X, Google Takeout, Spotify, Netflix, Goodreads, LinkedIn, calendars, mood diaries and more) and writes one page of your life, year by year and month by month. Then you can ask questions about your life and get answers from your own records, with the records shown.
+Lifekeeper reads the exports you already have (phone photos, Telegram, WhatsApp, Instagram, Facebook, X, Google Takeout, Spotify, Netflix, Goodreads, LinkedIn, calendars, mood diaries and more) and writes one page of your life, year by year and month by month. It finds the people in your photos and the trips you took. Then you can ask questions about your life and get answers from your own records, with the records shown.
 
 ```
 pipx install lifekeeper

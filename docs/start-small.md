@@ -33,7 +33,7 @@ Day 5: first look. Run Lifekeeper on it:
 python toolkit/lifekeeper/lifekeeper.py my-archive/exports --out my-archive/life.html
 ```
 
-The page shows your years month by month: where you were, who you talked to most, what you posted. Empty months show you what's missing.
+The page shows your years month by month: where you were, your trips, who you talked to most, what you posted. Empty months show you what's missing.
 
 Days 6 and 7: fill the gaps. Scan the documents that matter most, and add the exports that arrived late.
 

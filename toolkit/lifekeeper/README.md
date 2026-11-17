@@ -4,7 +4,7 @@ Lifekeeper reads a folder of exports and writes one HTML page: your years, month
 
 ## The app (Windows, Mac)
 
-Download it from [Releases](https://github.com/claudiakitova/lifekeeper/releases), double-click it, choose your exports folder, and press "Make my page". The page is saved next to that folder as `my-life.html` and opens in your browser. After that you can ask questions in the same window.
+Download it from [Releases](https://github.com/claudiakitova/lifekeeper/releases), double-click it, choose your exports folder, and press "Make my page". The page is saved next to that folder as `my-life.html` and opens in your browser. After that you can find the people in your photos and ask questions in the same window.
 
 The app is not signed. The first time, Windows says "Windows protected your PC" (choose **More info** → **Run anyway**), and a Mac asks you to right-click the app and choose **Open**.
 
@@ -24,7 +24,7 @@ Put your exports in one folder, as they came. Zips can stay zipped. For step-by-
 
 | Export | What it gives |
 |---|---|
-| Photos (from the phone, Google Takeout, old folders) | Where you were, month by month |
+| Photos (from the phone, Google Takeout, old folders) | Where you were, month by month, your trips, and who is in them |
 | Google location history (Takeout, or the phone's Timeline export) | Places you visited |
 | Telegram (`result.json`), WhatsApp (`.txt`), Messenger and Instagram (`message_1.json`) | Who you talked to, and when |
 | Android texts (the "SMS Backup & Restore" app's `.xml`) | The same, by contact. Phone numbers are not shown on the page |
@@ -193,7 +193,7 @@ These checks catch invented facts, not every mistake. A small local model can st
 
 ### What it knows
 
-It knows what the page shows: your own notes, your posts, stories and comments, diary lines, period start days, calendar events, Keep notes, books, searches, AI chat titles, hours and moods by month, LinkedIn jobs, who you exchanged messages with and how many, where your photos were taken, places from your location history, and what you listened to and watched.
+It knows what the page shows: your own notes, your posts, stories and comments, diary lines, period start days, calendar events, Keep notes, books, searches, AI chat titles, hours and moods by month, LinkedIn jobs, who you exchanged messages with and how many, who is in your photos, where your photos were taken, your trips, places from your location history, and what you listened to and watched.
 
 It doesn't read the text of your messages, documents or scans, so it can't answer "what did Anna say about the trip?". It can answer "when did I first talk to Anna?" and "who did I talk to most in 2020?".
 
