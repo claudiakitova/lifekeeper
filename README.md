@@ -106,7 +106,7 @@ With no AI, it shows the records that match, and nothing leaves your computer. F
 
 ## Status
 
-This is the method and a small tool. The full app runs on my own archive (search across everything, reading photos and scans, a life map) and isn't public yet.
+Lifekeeper is the public part of the archive I use for my own life. Mine also reads scans and voice recordings, describes what's in each photo, and has more views of the same data. I'm moving those parts into Lifekeeper one at a time.
 
 ## About
 
