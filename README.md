@@ -15,7 +15,7 @@
 
 Your photos, chats and posts are held by a dozen companies, and you only see them through their apps. Lifekeeper is how you take them back and put them together into one archive that you own and can read, search and correct.
 
-![Making the page and asking a question, with made-up data](docs/images/demo.gif)
+<p align="center"><img src="docs/images/demo.gif" alt="Making the page and asking a question, with made-up data" width="520"></p>
 
 ## Make your page
 
