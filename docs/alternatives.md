@@ -6,8 +6,7 @@ Several projects cover parts of what this approach does. I haven't found one tha
 
 - [Timelinize](https://timelinize.com) (open source, AGPL-3.0, pre-1.0). Imports Google Takeout, phone backups, messages, photos and location history into one local timeline in SQLite, and links people across sources. It's the closest project to this one. It's a full app, and its data format still changes between versions.
 - [Perkeep](https://perkeep.org) (open source). A storage system for a lifetime of personal data. The storage is solid, and it has few ready-made views.
-- [Dogsheep](https://dogsheep.github.io) (open source), by Simon Willison. Tools that pull your personal data (tweets, photos, health, GitHub) into a SQLite database you query with [Datasette](https://datasette.io). It's aimed at programmers.
-- [HPI](https://github.com/karlicoss/HPI) (open source). A Python library that turns personal exports into data you can query. It's also aimed at programmers.
+- [HPI](https://github.com/karlicoss/HPI) and [Dogsheep](https://dogsheep.github.io) (open source). Libraries that turn personal exports into data you can query. They're aimed at programmers.
 - [Immich](https://immich.app) and [PhotoPrism](https://www.photoprism.app) (open source). Self-hosted photo libraries. They handle photos only, and handle them very well.
 
 ## AI connected to your accounts
