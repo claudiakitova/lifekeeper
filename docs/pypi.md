@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/claudiakitova/lifekeeper/main/docs/images/lockup.svg" alt="Lifekeeper" width="320">
+<img src="https://raw.githubusercontent.com/nubifere/lifekeeper/main/docs/images/lockup.svg" alt="Lifekeeper" width="320">
 
 Reclaim your data and start your digital self: everything about you in one place, on your own computer
 
@@ -13,6 +13,6 @@ lifekeeper-app
 
 Making the page sends nothing anywhere. Answers use no AI by default; you can choose a model on your own computer (Ollama) or Google Gemini with your own key.
 
-![One year of the demo page, for a made-up person](https://raw.githubusercontent.com/claudiakitova/lifekeeper/main/docs/images/demo-page.png)
+![One year of the demo page, for a made-up person](https://raw.githubusercontent.com/nubifere/lifekeeper/main/docs/images/demo-page.png)
 
-The method, the download guides for each service, and the double-click apps for Windows and Mac: https://github.com/claudiakitova/lifekeeper
+The method, the download guides for each service, and the double-click apps for Windows and Mac: https://github.com/nubifere/lifekeeper
