@@ -30,8 +30,8 @@ lifekeeper-faces = "lifekeeper.faces:main"
 lifekeeper-app = "lifekeeper.app:main"
 
 [project.urls]
-Homepage = "https://github.com/claudiakitova/lifekeeper"
-Source = "https://github.com/claudiakitova/lifekeeper"
+Homepage = "https://github.com/nubifere/lifekeeper"
+Source = "https://github.com/nubifere/lifekeeper"
 
 [tool.setuptools]
 package-dir = { "lifekeeper" = "toolkit/lifekeeper" }
