@@ -4,7 +4,7 @@ Lifekeeper reads a folder of exports and writes one HTML page: your years, month
 
 ## The app (Windows, Mac)
 
-Download it from [Releases](https://github.com/nubifere/lifekeeper/releases), double-click it, choose your exports folder, and press "Make my page". The page is saved next to that folder as `my-life.html` and opens in your browser. After that you can find the people in your photos and ask questions in the same window.
+Download it from [Releases](https://github.com/claudiakitova/lifekeeper/releases), double-click it, choose your exports folder, and press "Make my page". The page is saved next to that folder as `my-life.html` and opens in your browser. After that you can find the people in your photos and ask questions in the same window.
 
 The app is not signed. The first time, Windows says "Windows protected your PC" (choose **More info** → **Run anyway**), and a Mac asks you to right-click the app and choose **Open**.
 
