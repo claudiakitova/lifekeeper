@@ -8,9 +8,9 @@
 <h3 align="center">Reclaim your data and start your digital self: everything about you in one place, on your own computer</h3>
 
 <p align="center">
-  <a href="https://github.com/nubifere/lifekeeper/actions/workflows/tests.yml"><img src="https://github.com/nubifere/lifekeeper/actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
-  <a href="https://github.com/nubifere/lifekeeper/releases/latest"><img src="https://img.shields.io/github/v/release/nubifere/lifekeeper?label=release" alt="Latest release"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/nubifere/lifekeeper" alt="MIT license"></a>
+  <a href="https://github.com/claudiakitova/lifekeeper/actions/workflows/tests.yml"><img src="https://github.com/claudiakitova/lifekeeper/actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
+  <a href="https://github.com/claudiakitova/lifekeeper/releases/latest"><img src="https://img.shields.io/github/v/release/claudiakitova/lifekeeper?label=release" alt="Latest release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/claudiakitova/lifekeeper" alt="MIT license"></a>
 </p>
 
 Your photos, chats and posts are held by a dozen companies, and you only see them through their apps. Lifekeeper is how you take them back and put them together into one archive that you own and can read, search and correct.
@@ -25,7 +25,7 @@ It reads photos, Telegram, WhatsApp, Messenger and Instagram chats, Android text
 
 ### The app (Windows, Mac)
 
-1. Download it from [Releases](https://github.com/nubifere/lifekeeper/releases) and unzip.
+1. Download it from [Releases](https://github.com/claudiakitova/lifekeeper/releases) and unzip.
 2. Double-click it, choose the folder with your exports, and press "Make my page".
 3. The page opens in your browser.
 4. To find the people in your photos, press **Find faces**.
